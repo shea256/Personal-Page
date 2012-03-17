@@ -1,0 +1,63 @@
+@font-face {
+    font-family: Outage;
+    src: url('fonts/Outage.ttf');
+}
+
+body {
+	font-family: trebuchet, arial, sans-serif;
+	background-color: black;
+}
+h1 { font-family: Outage; }
+p, h2, h3, h4, h5, h6 { font-family: trebuchet, arial, sans-serif; }
+h1.name {
+	font-size: 60px;
+	margin: 0px 0px 0px 0px;
+}
+.profile {
+	border: 1px solid transparent;
+	
+	position: absolute;
+	margin-left: 50%;
+	margin-top: 35px;
+	width: 435px;
+	
+	background-color: rgba(255, 255, 255, 0.5);
+	
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+.background-container {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	
+	background-image: url(images/ryan_golden_gate.jpg);
+	background-repeat: no-repeat;
+	background-position: 50% 0;
+}
+.profile-head {
+	padding: 30px 20px 0px 20px;
+}
+.profile-content {
+	padding: 0px 20px 0px 20px;
+}
+.contact-info {
+	padding: 0px 20px 20px 20px;
+}
+.profile-content ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.social-webpages ul li {
+	display: inline;
+}
+.social-webpages ul li a {
+	padding: 0em 0.1em;
+	opacity: 0.75;
+}
+.social-webpages ul li a:hover {
+	opacity: 1.0;
+}
