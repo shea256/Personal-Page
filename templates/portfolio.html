@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Portfolio{% endblock %}
+{% block head %}
+	{{ super() }}
+{% endblock %}
+{% block content %}
+<div class="background-container">
+	<div class="profile">
+		<div class="profile-head">
+			<h1 class="name">Ryan Shea</h1>
+		</div>
+		<div class="profile-content portfolio-container">
+			<p>Here are a few websites I've made for organizations I've been a part of:</p>
+			<ul>
+				<li><a href="http://www.princetoneclub.com/" target="_blank">The Princeton Entrepreneurship Club</a></li>
+				<li><a href="http://ecstartupsummit.com/" target="_blank">East Coast Startup Summit</a></li>
+			</ul>
+			<p>Check out the repo for <a href="https://github.com/rxl/Personal-Page" target="_blank">the website you're currently viewing</a> as well as the <a href="https://github.com/rxl/passtheflame" target="_blank">iPhone app</a> I plan on releasing to the iTunes store in a few weeks.</p>
+			<p>Find me on <a href="https://github.com/rxl" target="_blank">Github</a> and <a href="http://geekli.st/ryanshea" target="_blank">Geeklist</a>
+			</p>
+			<p>
+				And feel free to ask me about some of the other apps I've built!</p>
+		</div>
+	</div>
+</div>
+{% endblock %}

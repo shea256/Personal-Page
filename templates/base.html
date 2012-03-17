@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<head>
+	{% block head %}
+	<link rel="stylesheet" href="static/style.css" type="text/css" media="screen" />
+	<title>Ryan Shea - {% block title %}{% endblock %}</title>
+	{% endblock %}
+</head>
+<body>
+	<div id="content">
+		{% block content %}
+		{% endblock %}
+	</div>
+	<div id="footer">
+		{% block footer %}
+		{% endblock %}
+	</div>
+</body>
