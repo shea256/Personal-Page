@@ -7,8 +7,8 @@ body {
 	font-family: trebuchet, arial, sans-serif;
 	background-color: black;
 }
-h1 { font-family: Outage; }
-p, h2, h3, h4, h5, h6 { font-family: trebuchet, arial, sans-serif; }
+h1, h2 { font-family: Outage; }
+p, h3, h4, h5, h6 { font-family: trebuchet, arial, sans-serif; }
 h1.name {
 	font-size: 60px;
 	margin: 0px 0px 0px 0px;
@@ -16,17 +16,32 @@ h1.name {
 .profile {
 	border: 1px solid transparent;
 	
-	position: absolute;
-	margin-left: 50%;
 	margin-top: 35px;
-	width: 435px;
-	
-	background-color: rgba(255, 255, 255, 0.5);
 	
 	border-radius: 3px;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 }
+.semi-transparent {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+.slightly-transparent {
+    background-color: rgba(255, 255, 255, 0.85);
+}
+.opaque-white {
+    background-color: rgba(255, 255, 255, 1.0);
+}
+.right-side {
+    position: absolute;
+    margin-left: 50%;
+    width: 435px;
+}
+.full-page {
+    margin-left: auto;
+    margin-right: auto;
+    width: 600px;
+}
+
 .background-container {
 	width: 100%;
 	height: 100%;
