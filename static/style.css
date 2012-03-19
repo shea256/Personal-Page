@@ -67,8 +67,12 @@ h1.name {
 .contact-info {
 	padding: 0px 20px 20px 20px;
 }
-.profile-content ul {
+.no-bullets ul {
 	list-style-type: none;
+}
+
+.square-bullets ul {
+	list-style-type: square;
 }
 
 .social-webpages ul {
