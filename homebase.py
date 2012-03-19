@@ -9,7 +9,7 @@ import re
 app = Flask(__name__)
 
 app.config.update(
-    DEBUG = True,
+    DEBUG = False,
 )
 
 @app.route('/')
@@ -71,8 +71,8 @@ def aboutme():
     else:
         print "invalid URL attempted"
     
-    return render_template('aboutme.html', phone_number=verified_phone_number, email=verified_email)
-
+    return render_template('aboutme.html', email=email, phone_number=phone_number)
+    
 @app.route('/encryptname/<name>')
 def encryptname(name):
     
