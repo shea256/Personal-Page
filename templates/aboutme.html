@@ -8,9 +8,6 @@
 
 	<!--import jquery and javascript files-->
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
-	<script type="text/javascript" src="static/2.5.3-crypto-sha1.js"></script>
-	<script type="text/javascript" src="static/sjcl.js"></script>
-	<script type="text/javascript" src="static/personalize.js"></script>
 {% endblock %}
 {% block content %}
 	<div class="background-container">
@@ -34,16 +31,22 @@
 					<li id="tumblr"><a href="http://blog.ryanshea.org/" target="_blank"><img src="static/images/tumblr.png" /></a></li>
 				</ul>
 			</div>
+			{% if email or phone_number %}
 			<div id="contact-info" class="profile-content contact-info">
+				{% if email %}
 				<div>
 					<strong><span id="email_address_label">Email: </span></strong>
-					<span id="email_address"></span>
+					<span id="email_address">{{email}}</span>
 				</div>
+				{% endif %}
+				{% if phone_number %}
 				<div>
 					<strong><span id="phone_number_label">Phone Number: </span></strong>
-					<span id="phone_number"></span>
+					<span id="phone_number">{{phone_number}}</span>
 				</div>
+				{% endif %}
 			</div>
+			{% endif %}
 		</div>
 	</div>
 	
