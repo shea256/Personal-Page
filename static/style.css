@@ -7,8 +7,8 @@ body {
 	font-family: trebuchet, arial, sans-serif;
 	background-color: black;
 }
-h1, h2 { font-family: Outage; }
-p, h3, h4, h5, h6 { font-family: trebuchet, arial, sans-serif; }
+h1, h2, h3 { font-family: Outage; }
+p, h4, h5, h6 { font-family: trebuchet, arial, sans-serif; }
 h1.name {
 	font-size: 60px;
 	margin: 0px 0px 0px 0px;
@@ -39,12 +39,19 @@ h1.name {
 .full-page {
     margin-left: auto;
     margin-right: auto;
-    width: 600px;
+    width: 720px;
+}
+
+.fit-to-window-height {
+    height: 100%;
+}
+
+.full-image-height {
+    height: 720px;
 }
 
 .background-container {
 	width: 100%;
-	height: 100%;
 	position: absolute;
 	
 	background-image: url(images/ryan_golden_gate.jpg);
