@@ -43,7 +43,7 @@ def aboutme():
     # stripping parameter of whitespace
     decoded_name = string.rstrip(decoded_name)
     if re.match("^[A-Z]'?[- a-zA-Z]+$", decoded_name):
-        print decoded_name + " just visited your about page"
+        print "-----* " + decoded_name + " just visited your about page *-----"
     else:
         print "invalid URL attempted"
     
