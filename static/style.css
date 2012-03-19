@@ -62,8 +62,11 @@ h1.name {
 }
 .profile-content ul {
 	list-style-type: none;
-	margin: 0;
-	padding: 0;
+}
+
+.social-webpages ul {
+    margin-left: 0;
+	padding-left: 0;
 }
 
 .social-webpages ul li {
