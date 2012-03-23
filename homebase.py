@@ -5,12 +5,26 @@ from Crypto.Cipher import AES
 from Crypto.Hash import SHA
 import string
 import re
+from flaskext.mail import Mail, Message
 
 app = Flask(__name__)
+mail = Mail(app)
 
 app.config.update(
     DEBUG = False,
+    #Email settings
+    MAIL_SERVER = 'smtp.gmail.com',
+    MAIL_PORT = 587, # 465 or 587
+    MAIL_USE_TLS = True,
+    MAIL_USERNAME = 'mailbot@ryanshea.org',
+    MAIL_PASSWORD = 'ballsohard',
+    MAIL_FAIL_SILENTLY = True,
 )
+
+mail = Mail(app)
+
+regex_name = "^[A-Z]'?[- a-zA-Z]+$"
+regex_email = "^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$"
 
 @app.route('/')
 def aboutme():
@@ -44,53 +58,112 @@ def aboutme():
     
     # capture encrypted and base64-encoded parameter
     # if no viewer tracking id is present, stop and render the template
-    m = request.args.get('m', '')
-    if len(m) < 1:
+    i1 = request.args.get('i1', '')
+    encrypted_name = i1
+    i2 = request.args.get('i2', '')
+    encrypted_email = i2
+    
+    if (len(encrypted_name) < 1) or (len(encrypted_email) < 1):
         return render_template('aboutme.html', email=email, phone_number=phone_number)
     
-    # base64 decoding parameter
+    # parse url options
+    a1 = request.args.get('a1', '')
+    show_welcome_popup = False
+    if a1 is "1":
+        show_welcome_popup = True
+    a2 = request.args.get('a2', '')
+    send_welcome_email = False
+    if a2 == "1":
+        send_welcome_email = True
+    
+    # base64 decoding name
     try:
-        m = base64.urlsafe_b64decode(str(m))
+        encrypted_name = base64.urlsafe_b64decode(str(encrypted_name))
     except:
-        print "base64 decoding... invalid URL attempted"
-        return render_template('aboutme.html')        
+        print "base64 decoding... invalid URL attempted (name)"
+        return render_template('aboutme.html', email=email, phone_number=phone_number)
+    
+    # base64 decoding email
+    try:
+        encrypted_email = base64.urlsafe_b64decode(str(encrypted_email))
+    except:
+        print "base64 decoding... invalid URL attempted (email)"
+        return render_template('aboutme.html', email=email, phone_number=phone_number)
     
     # ensuring parameter is 16 characters for decryption
-    if len(m) != 16:
+    if (len(encrypted_name) != 16) or (len(encrypted_email) != 64):
         print "checking length of string... invalid URL attempted"
-        return render_template('aboutme.html')
+        return render_template('aboutme.html', email=email, phone_number=phone_number)
     
-    # decrypting parameter
-    obj2 = AES.new('ball so hard808s', AES.MODE_ECB)
-    decoded_name = obj2.decrypt(m)
+    # decrypting name and email
+    obj = AES.new('ball so hard808s', AES.MODE_ECB)
+    decrypted_name = obj.decrypt(encrypted_name)
+    decrypted_email = obj.decrypt(encrypted_email)
 
     # stripping parameter of whitespace
-    decoded_name = string.rstrip(decoded_name)
-    if re.match("^[A-Z]'?[- a-zA-Z]+$", decoded_name):
-        print "-----* " + decoded_name + " just visited your about page *-----"
+    decrypted_name = string.rstrip(decrypted_name)
+    decrypted_email = string.rstrip(decrypted_email)
+    if (re.match(regex_name, decrypted_name)) and (re.match(regex_email, decrypted_email)):
+        # our name and email is now verified - let's do some fun stuff
+        
+        # log our visitor
+        print "#####_____##### " + decrypted_name + " (" + decrypted_email + ")" + " just visited your about page #####_____#####"
+        
+        # send our visitor a thank you for visiting our page
+        if send_welcome_email:
+            message_html = '<p>' + decrypted_name + ', thank you for visiting my about page!' + '</p>'
+            msg = Message("Thank you for visiting my about page!", sender=("Ryan Shea's Mailbot", "info@princetoneclub.com"), recipients=[decrypted_email])
+            #msg.html = message_text
+            msg.html = message_html
+            #print "sending welcome email... To: " + str(msg.recipients)
+            mail.send(msg)
     else:
         print "invalid URL attempted"
     
-    return render_template('aboutme.html', email=email, phone_number=phone_number)
-    
-@app.route('/encryptname/<name>')
+    return render_template('aboutme.html', email=email, phone_number=phone_number, show_welcome_popup=show_welcome_popup)
+
 def encryptname(name):
+    if len(name) > 16:
+        return "<p>Name must be limited to 16 characters<p>"
     
-    if not re.match("^[A-Z]'?[- a-zA-Z]+$", name):
-        return "<p>Invalid characters in name</p>"
+    if not re.match(regex_name, name):
+        return "<p>Incorrectly formatted name</p>"
     
     name = name[0:16]
     name = string.ljust(name, 16)
-    
     if len(name) != 16:
-        return "<p>Invalid length of string<p>"
+        return "<p>Error adjusting string length<p>"
     
     obj = AES.new('ball so hard808s', AES.MODE_ECB)
     
-    ciphertext = obj.encrypt(name)
-    encoded64 = base64.urlsafe_b64encode(ciphertext)
+    name_encrypted = obj.encrypt(name)
+    name_encrypted_encoded = base64.urlsafe_b64encode(name_encrypted)
     
-    return "<p>Encoded name: " + encoded64 + "</p>"
+    return name_encrypted_encoded
+
+def encryptemail(email):
+    if len(email) > 64:
+        return "<p>Email must be limited to 64 characters<p>"
+    
+    if not re.match(regex_email, email):
+        return "<p>Incorrectly formatted email</p>"
+    
+    email = email[0:64]
+    email = string.ljust(email, 64)
+    if len(email) != 64:
+        return "<p>Error adjusting string length</p"
+    
+    obj = AES.new('ball so hard808s', AES.MODE_ECB)
+    
+    email_encrypted = obj.encrypt(email)
+    email_encrypted_encoded = base64.urlsafe_b64encode(email_encrypted)
+    
+    return email_encrypted_encoded
+
+@app.route('/encryptcontact/<name>/<email>')
+def encryptcontact(name, email):
+    url_tracker = "<h3>URL Tracker</h3><p>&i1=" + encryptname(name) + "&i2=" + encryptemail(email) + "</p>"
+    return url_tracker
 
 @app.route('/portfolio')
 def portfolio():
